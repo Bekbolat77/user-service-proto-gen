@@ -40,7 +40,7 @@ jobs:
       - name: Commit and push generated files
         run: |
           git config --global user.name "Bekbolat77"
-          git config --global user.email "your_email@example.com"
+          git config --global user.email "bekatileuhan02gmail.com"
 
           git add .
           git commit -m "Generate protobuf Go files" || echo "No changes to commit"
