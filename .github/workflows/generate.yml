@@ -31,7 +31,6 @@ jobs:
 
       - name: Generate Go code from proto files
         run: |
-          mkdir -p proto
           protoc \
             --proto_path=user-service-protos/proto \
             --go_out=. \
@@ -40,7 +39,7 @@ jobs:
       - name: Commit and push generated files
         run: |
           git config --global user.name "Bekbolat77"
-          git config --global user.email "bekatileuhan02gmail.com"
+          git config --global user.email "bekatileuhan02@gmail.com.com"
 
           git add .
           git commit -m "Generate protobuf Go files" || echo "No changes to commit"
