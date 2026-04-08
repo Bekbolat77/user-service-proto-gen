@@ -2,3 +2,46 @@ name: Generate Proto Files
 
 on:
   workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout generator repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Set up Protocol Buffers
+        uses: arduino/setup-protoc@v3
+        with:
+          version: '24.4'
+
+      - name: Install Go plugins
+        run: |
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+
+      - name: Clone proto repository
+        run: |
+          git clone https://github.com/Bekbolat77/user-service-protos.git
+
+      - name: Generate Go code from proto files
+        run: |
+          mkdir -p proto
+          protoc \
+            --proto_path=user-service-protos/proto \
+            --go_out=. \
+            user-service-protos/proto/user.proto
+
+      - name: Commit and push generated files
+        run: |
+          git config --global user.name "Bekbolat77"
+          git config --global user.email "your_email@example.com"
+
+          git add .
+          git commit -m "Generate protobuf Go files" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/Bekbolat77/user-service-proto-gen.git HEAD:main
