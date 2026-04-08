@@ -1,0 +1,4 @@
+name: Generate Proto Files
+
+on:
+  workflow_dispatch:
